@@ -1,15 +1,27 @@
 import { useState } from "react";
 import styles from "./AddContact.module.css";
 
-const AddContact = () => {
+const AddContact = ({ addContactHandler }) => {
   const [contact, setContact] = useState({ name: "", email: "" });
 
   const changeHandler = (e) => {
-    setContact({...contact,[e.target.name]:e.target.value});
-  }
+    setContact({ ...contact, [e.target.name]: e.target.value });
+  };
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    if (contact.name === "" || contact.email === "") {
+      alert("all fields are mandetory!");
+      return;
+    }
+
+    addContactHandler(contact);
+    setContact({ name: "", email: "" });
+  };
 
   return (
-    <form>
+    <form onSubmit={submitHandler}>
       <div>
         <label htmlFor="name">name</label>
         <input
@@ -30,7 +42,7 @@ const AddContact = () => {
           onChange={changeHandler}
         />
       </div>
-      <button>Add Contact</button>
+      <button type="submit">Add Contact</button>
     </form>
   );
 };
