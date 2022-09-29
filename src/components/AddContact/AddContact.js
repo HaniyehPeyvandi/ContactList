@@ -21,8 +21,8 @@ const AddContact = ({ addContactHandler }) => {
   };
 
   return (
-    <form onSubmit={submitHandler}>
-      <div>
+    <form onSubmit={submitHandler} className={styles.form}>
+      <div className={styles.formControl}>
         <label htmlFor="name">name</label>
         <input
           type="text"
@@ -32,7 +32,7 @@ const AddContact = ({ addContactHandler }) => {
           onChange={changeHandler}
         />
       </div>
-      <div>
+      <div className={styles.formControl}>
         <label htmlFor="email">email</label>
         <input
           type="email"
