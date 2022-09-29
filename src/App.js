@@ -13,11 +13,16 @@ function App() {
     ]);
   };
 
+  const deleteContactHandler = (id) => {
+    const filteredContacts = contacts.filter(c => c.id !== id);
+    setContacts(filteredContacts);
+  }
+
   return (
     <main className="App">
       <h1>Contact App</h1>
       <AddContact addContactHandler={addContactHandler} />
-      <ContactList contacts={contacts}/>
+      <ContactList contacts={contacts} onDelete={deleteContactHandler}/>
     </main>
   );
 }

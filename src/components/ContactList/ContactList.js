@@ -1,14 +1,15 @@
 import styles from "./ContactList.module.css";
 
-const ContactList = ({ contacts }) => {
+const ContactList = ({ contacts, onDelete }) => {
   return (
     <>
       {contacts.map((contact) => {
+        const { name, email, id } = contact;
         return (
-          <div key={contact.id}>
-            <p>name : {contact.name}</p>
-            <p>email : {contact.email}</p>
-            <button>delete</button>
+          <div key={id}>
+            <p>name : {name}</p>
+            <p>email : {email}</p>
+            <button onClick={() => onDelete(id)}>delete</button>
           </div>
         );
       })}
