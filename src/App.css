@@ -1,11 +1,11 @@
 .App {
-  text-align: center;
   background-color: #f6f6f6;
   width: 100%;
   min-height: 100vh;
 }
 
 .App h1{
+  text-align: center;
   color: #444;
   border-bottom: 1px solid #ccc;
   padding: 15px 0;
