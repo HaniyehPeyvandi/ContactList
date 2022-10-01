@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import AddContact from "./components/AddContact/AddContact";
+import ContactDetail from "./components/ContactDetail/ContactDetail";
 import ContactList from "./components/ContactList/ContactList";
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
     <main className="App">
       <h1>Contact App</h1>
       <Routes>
+      <Route path="/user/:id" element={<ContactDetail/>}/>
         <Route
           path="/add"
           element={<AddContact addContactHandler={addContactHandler} />}

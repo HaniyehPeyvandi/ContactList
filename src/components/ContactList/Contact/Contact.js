@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import userImage from "../../../assets/images/user.png";
 import styles from "./Contact.module.css";
 
@@ -5,13 +6,15 @@ const Contact = ({ onDelete, contact }) => {
   const { id, name, email } = contact;
 
   return (
-    <div key={id} className={styles.item}>
+    <div className={styles.item}>
       <div className={styles.userInfo}>
         <img src={userImage} alt="userImage" />
-        <div>
-          <p>name : {name}</p>
-          <p>email : {email}</p>
-        </div>
+        <Link to={`/user/${id}`} state={{contact:contact}}>
+          <div>
+            <p>name : {name}</p>
+            <p>email : {email}</p>
+          </div>
+        </Link>
       </div>
       <button onClick={() => onDelete(id)}>delete</button>
     </div>
