@@ -9,7 +9,7 @@ const Contact = ({ onDelete, contact }) => {
     <div className={styles.item}>
       <div className={styles.userInfo}>
         <img src={userImage} alt="userImage" />
-        <Link to={`/user/${id}`} state={{contact:contact}}>
+        <Link to={`/user/${id}`} state={{contact:contact}} className={styles.link}>
           <div>
             <p>name : {name}</p>
             <p>email : {email}</p>
