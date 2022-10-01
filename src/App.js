@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import AddContact from "./components/AddContact/AddContact";
 import ContactList from "./components/ContactList/ContactList";
 
 function App() {
-  const [contacts, setContacts] = useState([]);
+  const [contacts, setContacts] = useState(
+    JSON.parse(localStorage.getItem("contacts")) || []
+  );
 
   const addContactHandler = (contact) => {
     setContacts([
@@ -14,15 +16,26 @@ function App() {
   };
 
   const deleteContactHandler = (id) => {
-    const filteredContacts = contacts.filter(c => c.id !== id);
+    const filteredContacts = contacts.filter((c) => c.id !== id);
     setContacts(filteredContacts);
-  }
+  };
+
+  useEffect(() => {
+    const savedContacts = JSON.parse(localStorage.getItem("contacts"));
+    if (savedContacts) {
+      setContacts(savedContacts);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("contacts", JSON.stringify(contacts));
+  }, [contacts]);
 
   return (
     <main className="App">
       <h1>Contact App</h1>
       <AddContact addContactHandler={addContactHandler} />
-      <ContactList contacts={contacts} onDelete={deleteContactHandler}/>
+      <ContactList contacts={contacts} onDelete={deleteContactHandler} />
     </main>
   );
 }
