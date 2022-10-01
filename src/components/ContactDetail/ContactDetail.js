@@ -1,14 +1,15 @@
 import { Link, useLocation } from "react-router-dom";
+import styles from './ContactDetail.module.css';
 
 const ContactDetail = () => {
   const location = useLocation();
   const { contact } = location.state;
 
   return (
-    <div>
+    <div className={styles.contactDetail}>
       <p>user name : {contact.name}</p>
       <p>email : {contact.email}</p>
-      <Link to="/">go to homepage</Link>
+      <Link to="/" className={styles.link}>Go to contact list</Link>
     </div>
   );
 };
