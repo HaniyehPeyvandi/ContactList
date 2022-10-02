@@ -1,10 +1,24 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import styles from "./AddContact.module.css";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { getOneContact } from "../../services/getOneContactService";
+import styles from "../AddContact/AddContact.module.css";
 
-const AddContact = ({ addContactHandler }) => {
+const EditContact = ({ updateContactHandler }) => {
   const [contact, setContact] = useState({ name: "", email: "" });
-  let navigate = useNavigate();
+  const navigate = useNavigate();
+  const params = useParams();
+
+  useEffect(() => {
+    const fetchOneContact = async () => {
+      try {
+        const {data} = await getOneContact(params.id);
+        setContact({name:data.name,email:data.email});
+      } catch (error) {
+        
+      }
+    }
+    fetchOneContact();
+  },[])
 
   const changeHandler = (e) => {
     setContact({ ...contact, [e.target.name]: e.target.value });
@@ -14,11 +28,11 @@ const AddContact = ({ addContactHandler }) => {
     e.preventDefault();
 
     if (contact.name === "" || contact.email === "") {
-      alert("all fields are mandetory!");
+      alert("all fields are mandatory!");
       return;
     }
 
-    addContactHandler(contact);
+    updateContactHandler(params.id,contact);
     setContact({ name: "", email: "" });
     navigate("/");
   };
@@ -45,9 +59,9 @@ const AddContact = ({ addContactHandler }) => {
           onChange={changeHandler}
         />
       </div>
-      <button type="submit">Add Contact</button>
+      <button type="submit">Update Contact</button>
     </form>
   );
 };
 
-export default AddContact;
+export default EditContact;
