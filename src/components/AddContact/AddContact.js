@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { addContact } from "../../services/addContactService";
 import styles from "./AddContact.module.css";
 
-const AddContact = ({ addContactHandler }) => {
+const AddContact = () => {
   const [contact, setContact] = useState({ name: "", email: "" });
   let navigate = useNavigate();
 
@@ -10,7 +11,7 @@ const AddContact = ({ addContactHandler }) => {
     setContact({ ...contact, [e.target.name]: e.target.value });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     if (contact.name === "" || contact.email === "") {
@@ -18,9 +19,11 @@ const AddContact = ({ addContactHandler }) => {
       return;
     }
 
-    addContactHandler(contact);
-    setContact({ name: "", email: "" });
-    navigate("/");
+    try {
+      await addContact(contact);
+      setContact({ name: "", email: "" });
+      navigate("/");
+    } catch (error) {}
   };
 
   return (

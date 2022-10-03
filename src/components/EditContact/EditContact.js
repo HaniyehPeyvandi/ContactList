@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { getOneContact } from "../../services/getOneContactService";
+import { updateContact } from "../../services/updateContactService";
 import styles from "../AddContact/AddContact.module.css";
 
-const EditContact = ({ updateContactHandler }) => {
+const EditContact = () => {
   const [contact, setContact] = useState({ name: "", email: "" });
   const navigate = useNavigate();
   const params = useParams();
@@ -11,20 +12,18 @@ const EditContact = ({ updateContactHandler }) => {
   useEffect(() => {
     const fetchOneContact = async () => {
       try {
-        const {data} = await getOneContact(params.id);
-        setContact({name:data.name,email:data.email});
-      } catch (error) {
-        
-      }
-    }
+        const { data } = await getOneContact(params.id);
+        setContact({ name: data.name, email: data.email });
+      } catch (error) {}
+    };
     fetchOneContact();
-  },[])
+  }, []);
 
   const changeHandler = (e) => {
     setContact({ ...contact, [e.target.name]: e.target.value });
   };
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
 
     if (contact.name === "" || contact.email === "") {
@@ -32,9 +31,11 @@ const EditContact = ({ updateContactHandler }) => {
       return;
     }
 
-    updateContactHandler(params.id,contact);
-    setContact({ name: "", email: "" });
-    navigate("/");
+    try {
+      await updateContact(params.id, contact);
+      setContact({ name: "", email: "" });
+      navigate("/");
+    } catch (error) {}
   };
 
   return (
