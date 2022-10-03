@@ -23,7 +23,9 @@ const AddContact = () => {
       await addContact(contact);
       setContact({ name: "", email: "" });
       navigate("/");
-    } catch (error) {}
+    } catch (error) {
+      alert("Something went wrong!");
+    }
   };
 
   return (

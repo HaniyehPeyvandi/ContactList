@@ -10,6 +10,7 @@ const ContactList = (props) => {
   const [allContacts, setAllContacts] = useState([]);
   const [searchItem, setSearchItem] = useState("");
   const [loading, setIsLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const fetchContacts = async () => {
@@ -18,7 +19,10 @@ const ContactList = (props) => {
         setContacts(data);
         setAllContacts(data);
         setIsLoading(false);
-      } catch (error) {}
+      } catch (error) {
+        setIsLoading(false);
+        setError(true);
+      }
     };
 
     fetchContacts();
@@ -30,7 +34,9 @@ const ContactList = (props) => {
       const filteredContacts = contacts.filter((c) => c.id !== id);
       setContacts(filteredContacts);
       setAllContacts(filteredContacts);
-    } catch (error) {}
+    } catch (error) {
+      alert("Something went wrong!");
+    }
   };
 
   const searchHandler = (e) => {
@@ -52,6 +58,8 @@ const ContactList = (props) => {
   const renderContactList = () => {
     if (loading) {
       return <p className={styles.message}>Loading...</p>;
+    } else if (error) {
+      return <p className={styles.message}>Fetching data failed...</p>;
     } else if (allContacts.length === 0) {
       return <p className={styles.message}>Add some contacts !</p>;
     } else if (contacts.length === 0) {

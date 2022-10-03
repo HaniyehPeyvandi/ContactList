@@ -14,7 +14,9 @@ const EditContact = () => {
       try {
         const { data } = await getOneContact(params.id);
         setContact({ name: data.name, email: data.email });
-      } catch (error) {}
+      } catch (error) {
+        alert("Something went wrong!");
+      }
     };
     fetchOneContact();
   }, []);
@@ -35,7 +37,9 @@ const EditContact = () => {
       await updateContact(params.id, contact);
       setContact({ name: "", email: "" });
       navigate("/");
-    } catch (error) {}
+    } catch (error) {
+      alert("Something went wrong!");
+    }
   };
 
   return (
