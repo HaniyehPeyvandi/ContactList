@@ -9,11 +9,16 @@
   align-items: center;
 }
 
+.contactList .message{
+  font-weight: bold;
+  margin: 1rem 0;
+}
+
 .listHeader{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 30rem;
   padding: 10px 0;
 }
 
@@ -25,4 +30,15 @@
   cursor: pointer;
   border-radius: 5px;
   padding: 5px 10px;
+}
+
+.searchBox{
+  outline: none;
+  border: 1px solid #ccc;
+  padding: 8px 10px;
+  border-radius: 5px;
+}
+
+.searchBox:focus{
+  border: 2px solid #7c3aed;
 }
