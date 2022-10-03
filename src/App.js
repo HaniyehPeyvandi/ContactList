@@ -4,6 +4,7 @@ import AddContact from "./components/AddContact/AddContact";
 import ContactDetail from "./components/ContactDetail/ContactDetail";
 import ContactList from "./components/ContactList/ContactList";
 import EditContact from "./components/EditContact/EditContact";
+import NotFound from "./components/NotFound/NotFound";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
         <Route path="/user/:id" element={<ContactDetail />} />
         <Route path="/add" element={<AddContact />} />
         <Route path="/" element={<ContactList />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
   );
