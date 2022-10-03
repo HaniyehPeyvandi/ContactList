@@ -3,7 +3,9 @@ import styles from './ContactDetail.module.css';
 
 const ContactDetail = () => {
   const location = useLocation();
-  const { contact } = location.state;
+  const { contact } = location.state ? location.state : "" ;
+
+  if(!contact) return <p className={styles.contactDetail}>User Not Found !</p>;
 
   return (
     <div className={styles.contactDetail}>
