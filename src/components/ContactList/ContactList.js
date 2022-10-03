@@ -6,13 +6,18 @@ import { getContacts } from "../../services/getContactsService";
 import { deleteContact } from "../../services/deleteContactService";
 
 const ContactList = (props) => {
-  const [contacts, setContacts] = useState(null);
+  const [contacts, setContacts] = useState([]);
+  const [allContacts, setAllContacts] = useState([]);
+  const [searchItem, setSearchItem] = useState("");
+  const [loading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchContacts = async () => {
       try {
         const { data } = await getContacts();
         setContacts(data);
+        setAllContacts(data);
+        setIsLoading(false);
       } catch (error) {}
     };
 
@@ -24,7 +29,42 @@ const ContactList = (props) => {
       await deleteContact(id);
       const filteredContacts = contacts.filter((c) => c.id !== id);
       setContacts(filteredContacts);
+      setAllContacts(filteredContacts);
     } catch (error) {}
+  };
+
+  const searchHandler = (e) => {
+    setSearchItem(e.target.value);
+    let search = e.target.value;
+    if (!search || search === "") {
+      setContacts(allContacts);
+    } else {
+      const filtered = allContacts.filter((c) => {
+        return Object.values(c)
+          .join(" ")
+          .toLowerCase()
+          .includes(search.toLowerCase());
+      });
+      setContacts(filtered);
+    }
+  };
+
+  const renderContactList = () => {
+    if (loading) {
+      return <p className={styles.message}>Loading...</p>;
+    } else if (allContacts.length === 0) {
+      return <p className={styles.message}>Add some contacts !</p>;
+    } else if (contacts.length === 0) {
+      return <p className={styles.message}>No item matches !</p>;
+    } else {
+      return contacts.map((contact) => (
+        <Contact
+          onDelete={deleteContactHandler}
+          contact={contact}
+          key={contact.id}
+        />
+      ));
+    }
   };
 
   return (
@@ -36,17 +76,16 @@ const ContactList = (props) => {
             <button>Add</button>
           </Link>
         </div>
-        {contacts ? (
-          contacts.map((contact) => (
-            <Contact
-              onDelete={deleteContactHandler}
-              contact={contact}
-              key={contact.id}
-            />
-          ))
-        ) : (
-          <p>Loading...</p>
-        )}
+        <div>
+          <input
+            type="text"
+            placeholder="Search"
+            value={searchItem}
+            onChange={searchHandler}
+            className={styles.searchBox}
+          />
+        </div>
+        {renderContactList()}
       </div>
     </section>
   );
